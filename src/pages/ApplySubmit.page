@@ -1,0 +1,33 @@
+<apex:page controller="ApplyController" showHeader="false">
+    <apex:pageBlock title="Job Application">
+        <apex:form >
+            <apex:pageBlockSection title="General information">
+                <apex:inputText label="First Name" value="{!parsedResume.c.First_Name__c}" />
+                <apex:inputText label="Last Name" value="{!parsedResume.c.Last_Name__c}"/>
+                <apex:inputText label="Phone Number" value="{!parsedResume.c.Phone__c}"/>
+                <apex:inputText label="email" value="{!parsedResume.c.Email__c}"/>
+                <apex:inputText label="Skype username" value="{!parsedResume.c.Skype_Username__c}"/>
+            </apex:pageBlockSection> 
+        
+            <apex:pageBlockSection title="Current Address">    
+                <apex:inputTextArea label="Street Address" value="{!parsedResume.c.Street__c}"/>
+                <apex:inputText label="City" value="{!parsedResume.c.City__c}"/>
+                <apex:inputField value="{!parsedResume.c.State__c}"/>
+                <apex:inputText label="Zip Code" value="{!parsedResume.c.Zip_Code__c}"/>
+                <!--Include State--> 
+            </apex:pageBlockSection>
+        
+        <apex:pageBlockSection title="Education">
+                <!--Include Degree Picklist-->
+                <apex:inputField value="{!parsedResume.c.Education__c}"/>
+                <apex:inputText label="Institute Name" value="{!parsedResume.c.University__c}"/>
+            </apex:pageBlockSection>
+            
+         <apex:pageBlockSection title="Latest job">    
+                <apex:inputText label="Company Name" value="{!parsedResume.c.Current_Employer__c}" />
+                <apex:inputText label="Current Title" value="{!parsedResume.c.Current_Title__c}"/>
+            </apex:pageBlockSection>
+            <apex:commandButton value="submit" action="{!submitAction}"/>
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

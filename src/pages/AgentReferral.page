@@ -1,0 +1,57 @@
+<apex:page controller="ReferralController" sidebar="false" showHeader="false">
+    <style> body { background-color: transparent; } </style>
+    <script>
+        function updatePosition(departmentFieldId, positionFieldId){
+               ReferralController.getPositionListDynamically(document.getElementById(departmentFieldId).value, function(result, event){  
+                    if(event.status){
+                       var tokenizedList = result.split(",");
+                       var optionsList = '';
+                       for(var i = 0; i < tokenizedList.length - 1; i++){
+                           optionsList += "<option value=\"" + tokenizedList[i] + "\">" + tokenizedList[i] + "</option>";
+                       }
+                       document.getElementById(positionFieldId).innerHTML = optionsList;   
+                    }   
+                }, {escape:true});  
+        }
+    </script>
+    <apex:form >
+        <apex:pageBlock title="Agent's Referral">
+            
+            <apex:pageMessages />
+            <apex:pageBlockSection title="Candidate Information" columns="2">
+                <apex:inputField value="{!candidate.First_Name__c}" label="First Name" />
+                <apex:inputField value="{!candidate.Last_Name__c}" label="Last Name" />
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Recommended Position" columns="2">
+             <!--Just Comment-->
+             
+                 <apex:selectList value="{!position.Department__c}" size="1" id="department" required="true" onChange="updatePosition('{!$Component.department}','{!$Component.position11}')">
+                     <apex:selectOptions value="{!DepartmentsList}"/>
+                 </apex:selectList> 
+                 <apex:selectList value="{!position.Name}" size="1" required="true" id="position11">
+                     <apex:selectOptions value="{!positionsList}" />
+                 </apex:selectList>  
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Candidate Contact Information" >
+                <apex:inputField value="{!candidate.Email__c}" label="Email" />
+                <apex:inputField value="{!candidate.Street__c}" label="Street" />
+                <apex:inputField value="{!candidate.LinkedIn_Profile_URL__c}" label="LinkedIn Profile URL" />
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Notes">
+                 <apex:inputtextarea value="{!notes}" label="Notes"/>
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Resume upload" columns="1">
+                <apex:outputLabel value="Accepted types: PDF, docx, doc" />
+                <apex:inputFile value="{!resume.body}" filename="{!resume.name}"/>
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockButtons >
+             <apex:commandButton value="Submit" action="{!agentReferralAction}"/>
+             </apex:pageBlockButtons>
+         </apex:pageBlock> 
+     </apex:form>
+</apex:page>
